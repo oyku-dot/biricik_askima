@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Playfair Display, Great Vibes, Inter -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -49,7 +49,6 @@
             background-image: radial-gradient(#e54271 0.5px, transparent 0.5px), radial-gradient(#e54271 0.5px, #FAF5EF 0.5px);
             background-size: 20px 20px;
             background-position: 0 0, 10px 10px;
-            background-opacity: 0.05;
         }
 
         /* Floating Hearts Background Animation */
@@ -105,12 +104,13 @@
         }
 
         .letter {
-            transition: transform 0.6s ease 0.4s, opacity 0.4s ease;
+            transition: transform 0.6s ease 0.4s, opacity 0.4s ease 0.3s;
+            z-index: 2;
         }
 
         .envelope.open .letter {
-            transform: translateY(-80px);
-            z-index: 4;
+            transform: translateY(-100px);
+            z-index: 10;
         }
 
         /* Flip Card Effect */
@@ -161,7 +161,7 @@
     <!-- Mini Audio Player Widget (Fixed Position) -->
     <div class="fixed bottom-4 right-4 z-50">
         <div class="glass-panel p-3 rounded-2xl shadow-xl flex items-center space-x-3 border border-blush-200 hover:shadow-2xl transition duration-300">
-            <div class="w-10 h-10 rounded-full bg-blush-100 flex items-center justify-center text-blush-500 animate-spin-slow">
+            <div id="music-disc" class="w-10 h-10 rounded-full bg-blush-100 flex items-center justify-center text-blush-500">
                 <i class="fa-solid fa-music text-sm" id="music-icon"></i>
             </div>
             <div class="pr-2">
@@ -176,7 +176,7 @@
                 <i class="fa-solid fa-play text-xs" id="play-icon"></i>
             </button>
         </div>
-        <!-- Audio Element (Sample music source) -->
+        <!-- Audio Element -->
         <audio id="bg-music" loop>
             <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
         </audio>
@@ -191,7 +191,7 @@
             </div>
             
             <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl font-bold text-softBurgundy leading-tight mb-4">
-                İyi Ki Doğdun Sevgilim, <br class="sm:hidden"/>
+                İyi Ki Doğdun, <br class="sm:hidden"/>
                 <span class="font-handwriting text-5xl sm:text-7xl md:text-8xl text-blush-500 block sm:inline mt-2 sm:mt-0 font-normal">Sevgilim ✨</span>
             </h1>
             
@@ -234,8 +234,8 @@
             <h2 class="font-serif text-2xl md:text-3xl text-softBurgundy font-semibold mb-2">Sana Bir Mektubum Var 💌</h2>
             <p class="text-sm text-gray-500 mb-8">Zarfa tıklayarak doğum günü mektubunu okuyabilirsin.</p>
 
-            <div class="envelope-wrapper flex justify-center">
-                <div id="envelope" onclick="openEnvelope()" class="envelope w-72 sm:w-96 h-48 sm:h-64 rounded-2xl border-2 border-blush-200 shadow-xl cursor-pointer relative flex items-center justify-center overflow-visible bg-blush-50 hover:shadow-2xl transition">
+            <div class="envelope-wrapper flex justify-center pt-12 pb-24">
+                <div id="envelope" onclick="openEnvelope()" class="envelope w-72 sm:w-96 h-48 sm:h-64 rounded-2xl border-2 border-blush-200 shadow-xl cursor-pointer relative flex items-center justify-center bg-blush-50 hover:shadow-2xl transition">
                     
                     <!-- Envelope Flap -->
                     <div class="envelope-flap rounded-t-2xl"></div>
@@ -246,7 +246,7 @@
                     </div>
 
                     <!-- Letter Inside -->
-                    <div id="letter" class="letter opacity-0 absolute inset-2 bg-vintagePaper p-6 sm:p-8 rounded-xl shadow-2xl border border-blush-200 text-left overflow-y-auto max-h-[400px]">
+                    <div id="letter" class="letter opacity-0 absolute inset-2 bg-vintagePaper p-6 sm:p-8 rounded-xl shadow-2xl border border-blush-200 text-left overflow-y-auto max-h-[350px]">
                         <div class="font-handwriting text-3xl sm:text-4xl text-blush-500 mb-4">Biricik Sevgilime,</div>
                         <p class="font-serif text-gray-700 leading-relaxed text-sm sm:text-base mb-4 italic">
                             Bugün sadece senin doğum günün değil, benim de dünyamın güzelleştiği gün. İyi ki doğdun, iyi ki benim hayatımdasın.
@@ -265,7 +265,7 @@
                 </div>
             </div>
             
-            <button onclick="triggerConfetti()" class="mt-8 px-6 py-2.5 bg-blush-400 hover:bg-blush-500 text-white rounded-full font-medium text-sm shadow-md hover:shadow-lg transition flex items-center space-x-2 mx-auto">
+            <button onclick="triggerConfetti()" class="mt-4 px-6 py-2.5 bg-blush-400 hover:bg-blush-500 text-white rounded-full font-medium text-sm shadow-md hover:shadow-lg transition flex items-center space-x-2 mx-auto">
                 <i class="fa-solid fa-wand-magic-sparkles"></i>
                 <span>Biraz Kutlama Işıltısı Saç! ✨</span>
             </button>
@@ -286,7 +286,7 @@
                     <div class="glass-panel p-5 rounded-2xl shadow-sm hover:shadow-md transition">
                         <span class="text-xs font-semibold text-blush-500 uppercase tracking-wide">İlk Tanışmamız</span>
                         <h3 class="font-serif text-lg font-bold text-softBurgundy mt-1">O Büyülü Gün</h3>
-                        <p class="text-sm text-gray-600 mt-2">İlk öpüşmemizdeki o an zamanın durduğunu hissetmiştim. Hayatımın dönüm noktasıydı. Teşekkür ederim! .</p>
+                        <p class="text-sm text-gray-600 mt-2">İlk öpüşmemizdeki o an zamanın durduğunu hissetmiştim. Hayatımın dönüm noktasıydı. Teşekkür ederim!</p>
                         <div class="mt-4 overflow-hidden rounded-xl h-48 bg-gray-100">
                             <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=800&q=80" alt="Anı 1" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                         </div>
@@ -297,9 +297,9 @@
                 <div class="relative pl-8 md:pl-12 group">
                     <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blush-400 border-4 border-vintagePaper"></div>
                     <div class="glass-panel p-5 rounded-2xl shadow-sm hover:shadow-md transition">
-                        <span class="text-xs font-semibold text-blush-500 uppercase tracking-wide">İlk Tatilimiz</span>
-                        <h3 class="font-serif text-lg font-bold text-softBurgundy mt-1">Birlikte Keşfettiğimiz Yollar</h3>
-                        <p class="text-sm text-gray-600 mt-2">Beraber Aşık Veysel'de yürümemiz, kedi sevmemiz ve gittiğimiz daha birçok yer benim için unutulamaz.</p>
+                        <span class="text-xs font-semibold text-blush-500 uppercase tracking-wide">Birlikte Keşfettiğimiz Yollar</span>
+                        <h3 class="font-serif text-lg font-bold text-softBurgundy mt-1">Gezilerimiz</h3>
+                        <p class="text-sm text-gray-600 mt-2">Beraber Aşık Veysel'de yürümemiz, kedi sevmemiz ve gittiğimiz daha birçok yer benim için unutulmaz.</p>
                         <div class="mt-4 overflow-hidden rounded-xl h-48 bg-gray-100">
                             <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80" alt="Anı 2" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                         </div>
@@ -312,7 +312,7 @@
                     <div class="glass-panel p-5 rounded-2xl shadow-sm hover:shadow-md transition">
                         <span class="text-xs font-semibold text-blush-500 uppercase tracking-wide">Sıradan Bir Gün</span>
                         <h3 class="font-serif text-lg font-bold text-softBurgundy mt-1">Kahkahalarla Dolu Bir Akşam</h3>
-                        <p class="text-sm text-gray-600 mt-2">En özel anlar illa büyük planlar gerektirmez. Seninle kafede kahve içip gülüşü sarılmak bile en büyük mutluluk.</p>
+                        <p class="text-sm text-gray-600 mt-2">En özel anlar illa büyük planlar gerektirmez. Seninle kafede kahve içip gülüşüp sarılmak bile en büyük mutluluk.</p>
                         <div class="mt-4 overflow-hidden rounded-xl h-48 bg-gray-100">
                             <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80" alt="Anı 3" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                         </div>
@@ -325,7 +325,7 @@
         <!-- 3. REASONS WHY I LOVE YOU (Flip Cards) -->
         <section class="space-y-8">
             <div class="text-center">
-                <h2 class="font-serif text-3xl text-softBurgundy font-bold">Sana Tapmamın Nedenleri 💌</h2>
+                <h2 class="font-serif text-3xl text-softBurgundy font-bold">Sana Aşık Olmamın Nedenleri 💌</h2>
                 <p class="text-sm text-gray-500 mt-1">Kartlara tıklayarak küçük sürpriz notları keşfet!</p>
             </div>
 
@@ -399,14 +399,14 @@
                         A) Aşık Veysel'de oturup sohbet etmek 
                     </button>
                     <button onclick="checkAnswer(this, true)" class="w-full py-3 px-4 bg-white hover:bg-blush-50 border border-blush-200 rounded-xl text-sm font-medium transition text-gray-700">
-                        B) Birbirimize goonlamak
+                        B) Birlikte vakit geçirmek
                     </button>
                     <button onclick="checkAnswer(this, false)" class="w-full py-3 px-4 bg-white hover:bg-blush-50 border border-blush-200 rounded-xl text-sm font-medium transition text-gray-700">
                         C) Birbirimize aldığımız zamansız tatlı hediyeleri açmak
                     </button>
                 </div>
 
-                <div id="quiz-result" class="hidden p-4 rounded-xl bg-blush-100 text-softBurgundy font-medium text-sm animate-fade-in">
+                <div id="quiz-result" class="hidden p-4 rounded-xl font-medium text-sm">
                     <!-- Dynamic Result Message -->
                 </div>
             </div>
@@ -427,7 +427,7 @@
 
                 <div id="secret-message" class="hidden mt-6 p-6 bg-vintagePaper rounded-2xl border border-blush-200 max-w-lg mx-auto text-left shadow-inner">
                     <p class="font-serif text-gray-700 leading-relaxed italic text-sm sm:text-base">
-                        "Benim tek dileğim, önümüzdeki tüm yıllarda her yeni yaşına girerken elini tutan kişinin ben olmam. İyi ki doğdun biricik sevgilim , iyi ki benim hayatımdasın. Seni çok seviyorum ve sonsuza kadar seveceğim." 💝 
+                        "Benim tek dileğim, önümüzdeki tüm yıllarda her yeni yaşına girerken elini tutan kişinin ben olmam. İyi ki doğdun biricik sevgilim, iyi ki benim hayatımdasın. Seni çok seviyorum ve sonsuza kadar seveceğim." 💝 
                     </p>
                 </div>
             </div>
@@ -444,14 +444,13 @@
         // --- 1. Background Floating Hearts ---
         function createFloatingHearts() {
             const container = document.getElementById('hearts-container');
-            const heartIcons = ['fa-heart', 'fa-sparkles', 'fa-heart font-thin'];
+            const heartIcons = ['fa-heart', 'fa-sparkles'];
             
             for (let i = 0; i < 20; i++) {
                 const heart = document.createElement('i');
                 const randomIcon = heartIcons[Math.floor(Math.random() * heartIcons.length)];
                 heart.className = `fa-solid ${randomIcon} floating-heart text-blush-300`;
                 
-                // Random position and size
                 heart.style.left = `${Math.random() * 100}%`;
                 heart.style.top = `${Math.random() * 100}%`;
                 heart.style.fontSize = `${Math.random() * 14 + 10}px`;
@@ -463,8 +462,8 @@
         }
 
         // --- 2. Live Relationship Counter ---
-        // Replace this date with your actual relationship start date! (YYYY, MM-1, DD)
-        const startDate = new Date(2022, 5, 15); // Example: June 15, 2022
+        // YIL, AY (0-11 arası, yani Ocak=0, Haziran=5), GÜN
+        const startDate = new Date(2022, 5, 15); 
 
         function updateCounter() {
             const now = new Date();
@@ -493,18 +492,20 @@
                 setTimeout(() => {
                     letter.classList.remove('opacity-0');
                     triggerConfetti();
-                }, 500);
+                }, 400);
             }
         }
 
         // --- 4. Confetti Trigger ---
         function triggerConfetti() {
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#f16e95', '#e54271', '#B76E79', '#FAF5EF']
-            });
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#f16e95', '#e54271', '#B76E79', '#FAF5EF']
+                });
+            }
         }
 
         // --- 5. Flip Card Toggle ---
@@ -518,12 +519,12 @@
             resultDiv.classList.remove('hidden');
 
             if (isCorrect) {
-                resultDiv.innerHTML = "🎉 Harika! Bizi çok iyi tanıyorsun, hepsini birlikte yapmak seninle mükemmel!";
-                resultDiv.className = "p-4 rounded-xl bg-green-100 text-green-800 font-medium text-sm animate-fade-in";
+                resultDiv.innerHTML = "🎉 Harika! Bizi çok iyi tanıyorsun, seninle zaman geçirmek mükemmel!";
+                resultDiv.className = "p-4 rounded-xl bg-green-100 text-green-800 font-medium text-sm";
                 triggerConfetti();
             } else {
                 resultDiv.innerHTML = "💖 Aslında hepsi doğru! Seninle yaptığım her şey benim için paha biçilemez.";
-                resultDiv.className = "p-4 rounded-xl bg-blush-100 text-softBurgundy font-medium text-sm animate-fade-in";
+                resultDiv.className = "p-4 rounded-xl bg-blush-100 text-softBurgundy font-medium text-sm";
             }
         }
 
@@ -545,14 +546,20 @@
         const playBtn = document.getElementById('play-btn');
         const playIcon = document.getElementById('play-icon');
         const progressBar = document.getElementById('music-progress');
+        const musicDisc = document.getElementById('music-disc');
 
         function toggleAudio() {
             if (isPlaying) {
                 audio.pause();
                 playIcon.className = "fa-solid fa-play text-xs";
+                musicDisc.classList.remove('animate-spin');
             } else {
-                audio.play();
-                playIcon.className = "fa-solid fa-pause text-xs";
+                audio.play().then(() => {
+                    playIcon.className = "fa-solid fa-pause text-xs";
+                    musicDisc.classList.add('animate-spin');
+                }).catch(e => {
+                    console.log("Audio play error:", e);
+                });
             }
             isPlaying = !isPlaying;
         }
@@ -573,3 +580,4 @@
         };
     </script>
 </body>
+    </html>
