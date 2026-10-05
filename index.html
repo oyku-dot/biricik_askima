@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doğum Günün Kutlu Olsun Sevgilim ✨</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Playfair Display, Great Vibes, Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        blush: {
+                            50: '#fff5f7',
+                            100: '#ffe3ec',
+                            200: '#fccad9',
+                            300: '#f7a3bc',
+                            400: '#f16e95',
+                            500: '#e54271',
+                        },
+                        roseGold: '#B76E79',
+                        warmCream: '#FAF5EF',
+                        vintagePaper: '#FDFBF7',
+                        softBurgundy: '#6B2D39',
+                    },
+                    fontFamily: {
+                        handwriting: ['Great Vibes', 'cursive'],
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #FAF5EF;
+            background-image: radial-gradient(#e54271 0.5px, transparent 0.5px), radial-gradient(#e54271 0.5px, #FAF5EF 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            background-opacity: 0.05;
+        }
+
+        /* Floating Hearts Background Animation */
+        .floating-heart {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
+            animation: floatUp 6s ease-in-out infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(0.8) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Envelope Styles */
+        .envelope-wrapper {
+            perspective: 1000px;
+        }
+
+        .envelope {
+            position: relative;
+            background: #F8E5E5;
+            transition: transform 0.6s ease;
+            transform-style: preserve-3d;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: #e8d0d0;
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            transform-origin: top;
+            transition: transform 0.5s ease 0.3s, z-index 0.2s ease 0.3s;
+            z-index: 3;
+        }
+
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .letter {
+            transition: transform 0.6s ease 0.4s, opacity 0.4s ease;
+        }
+
+        .envelope.open .letter {
+            transform: translateY(-80px);
+            z-index: 4;
+        }
+
+        /* Flip Card Effect */
+        .flip-card {
+            background-color: transparent;
+            perspective: 1000px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+        }
+
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(253, 251, 247, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(229, 66, 113, 0.15);
+        }
+    </style>
+</head>
+<body class="text-gray-800 font-sans selection:bg-blush-200 selection:text-softBurgundy overflow-x-hidden relative">
+
+    <!-- Floating Background Particles -->
+    <div id="hearts-container" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+    <!-- Mini Audio Player Widget (Fixed Position) -->
+    <div class="fixed bottom-4 right-4 z-50">
+        <div class="glass-panel p-3 rounded-2xl shadow-xl flex items-center space-x-3 border border-blush-200 hover:shadow-2xl transition duration-300">
+            <div class="w-10 h-10 rounded-full bg-blush-100 flex items-center justify-center text-blush-500 animate-spin-slow">
+                <i class="fa-solid fa-music text-sm" id="music-icon"></i>
+            </div>
+            <div class="pr-2">
+                <div class="text-xs font-semibold text-softBurgundy">Bizim Şarkımız ✨</div>
+                <div class="text-[10px] text-gray-500" id="song-title">Aşk Şarkısı - En Sevdiğimiz</div>
+                <!-- Mini Progress Bar -->
+                <div class="w-24 bg-blush-100 h-1 rounded-full mt-1 overflow-hidden">
+                    <div id="music-progress" class="bg-blush-400 h-full w-0 transition-all duration-300"></div>
+                </div>
+            </div>
+            <button id="play-btn" onclick="toggleAudio()" class="w-8 h-8 bg-blush-400 hover:bg-blush-500 text-white rounded-full flex items-center justify-center transition shadow-md">
+                <i class="fa-solid fa-play text-xs" id="play-icon"></i>
+            </button>
+        </div>
+        <!-- Audio Element (Sample music source) -->
+        <audio id="bg-music" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <main class="relative z-10 max-w-4xl mx-auto px-4 py-8 space-y-24">
+
+        <!-- 1. HERO SECTION -->
+        <section class="text-center min-h-[85vh] flex flex-col justify-center items-center pt-8">
+            <div class="inline-block px-4 py-1.5 bg-blush-100 border border-blush-200 rounded-full text-blush-500 font-medium text-xs md:text-sm tracking-wide mb-6 shadow-sm">
+                💖 Bugün Sen Geldiğin Gün!
+            </div>
+            
+            <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl font-bold text-softBurgundy leading-tight mb-4">
+                İyi Ki Doğdun, <br class="sm:hidden"/>
+                <span class="font-handwriting text-5xl sm:text-7xl md:text-8xl text-blush-500 block sm:inline mt-2 sm:mt-0 font-normal">Sevgilim ✨</span>
+            </h1>
+            
+            <p class="text-gray-600 max-w-lg text-sm sm:text-base mb-10 italic">
+                "Hayatıma girdiğin günden beri her anım seninle daha renkli, daha anlamlı ve aşk dolu."
+            </p>
+
+            <!-- Counter / Timer Box -->
+            <div class="w-full max-w-md glass-panel p-6 rounded-3xl shadow-lg border border-blush-200 mb-12">
+                <p class="text-xs uppercase tracking-wider text-gray-500 mb-3 font-semibold">Birlikte Geçirdiğimiz Muhteşem Zaman</p>
+                <div class="grid grid-cols-4 gap-2 text-center" id="counter">
+                    <div class="bg-vintagePaper p-3 rounded-2xl border border-blush-100">
+                        <span class="block text-xl sm:text-2xl font-bold text-softBurgundy" id="days">00</span>
+                        <span class="text-[10px] text-gray-500 uppercase">Gün</span>
+                    </div>
+                    <div class="bg-vintagePaper p-3 rounded-2xl border border-blush-100">
+                        <span class="block text-xl sm:text-2xl font-bold text-softBurgundy" id="hours">00</span>
+                        <span class="text-[10px] text-gray-500 uppercase">Saat</span>
+                    </div>
+                    <div class="bg-vintagePaper p-3 rounded-2xl border border-blush-100">
+                        <span class="block text-xl sm:text-2xl font-bold text-softBurgundy" id="minutes">00</span>
+                        <span class="text-[10px] text-gray-500 uppercase">Dakika</span>
+                    </div>
+                    <div class="bg-vintagePaper p-3 rounded-2xl border border-blush-100">
+                        <span class="block text-xl sm:text-2xl font-bold text-softBurgundy" id="seconds">00</span>
+                        <span class="text-[10px] text-gray-500 uppercase">Saniye</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Envelope Section Trigger -->
+            <a href="#letter-section" class="inline-flex items-center space-x-2 text-blush-500 hover:text-blush-600 font-medium text-sm transition animate-bounce">
+                <span>Aşağıya kaydır ve mektubunu aç</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </a>
+        </section>
+
+        <!-- 1B. INTERACTIVE LETTER ENVELOPE -->
+        <section id="letter-section" class="scroll-mt-12 text-center">
+            <h2 class="font-serif text-2xl md:text-3xl text-softBurgundy font-semibold mb-2">Sana Bir Mektubum Var 💌</h2>
+            <p class="text-sm text-gray-500 mb-8">Zarfa tıklayarak doğum günü mektubunu okuyabilirsin.</p>
+
+            <div class="envelope-wrapper flex justify-center">
+                <div id="envelope" onclick="openEnvelope()" class="envelope w-72 sm:w-96 h-48 sm:h-64 rounded-2xl border-2 border-blush-200 shadow-xl cursor-pointer relative flex items-center justify-center overflow-visible bg-blush-50 hover:shadow-2xl transition">
+                    
+                    <!-- Envelope Flap -->
+                    <div class="envelope-flap rounded-t-2xl"></div>
+
+                    <!-- Heart Seal -->
+                    <div id="seal" class="absolute z-10 w-12 h-12 bg-blush-400 rounded-full flex items-center justify-center text-white shadow-md transition transform hover:scale-110">
+                        <i class="fa-solid fa-heart text-lg"></i>
+                    </div>
+
+                    <!-- Letter Inside -->
+                    <div id="letter" class="letter opacity-0 absolute inset-2 bg-vintagePaper p-6 sm:p-8 rounded-xl shadow-2xl border border-blush-200 text-left overflow-y-auto max-h-[400px]">
+                        <div class="font-handwriting text-3xl sm:text-4xl text-blush-500 mb-4">Biricik Sevgilime,</div>
+                        <p class="font-serif text-gray-700 leading-relaxed text-sm sm:text-base mb-4 italic">
+                            Bugün sadece senin doğduğun gün değil, benim de dünyamın güzelleştiği gün. İyi ki doğdun, iyi ki benim hayatımdasın.
+                        </p>
+                        <p class="font-serif text-gray-700 leading-relaxed text-sm sm:text-base mb-4 italic">
+                            Gülüşünle karanlık günlerimi aydınlattığın, her anımda yanımda olup beni koşulsuz sevdiğin için minnettarım. Seninle geçirdiğim her saniye, hayatımın en değerli hediyesi.
+                        </p>
+                        <p class="font-serif text-gray-700 leading-relaxed text-sm sm:text-base mb-6 italic">
+                            Yeni yaşında tüm hayallerinin gerçekleşmesini ve birlikte nice mutlu, kahkaha dolu yıllar geçirmemizi diliyorum. Seni çok ama çok seviyorum! ❤️
+                        </p>
+                        <div class="text-right font-handwriting text-2xl text-softBurgundy">
+                            Sonsuza dek senin,<br/>
+                            [İsminiz]
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button onclick="triggerConfetti()" class="mt-8 px-6 py-2.5 bg-blush-400 hover:bg-blush-500 text-white rounded-full font-medium text-sm shadow-md hover:shadow-lg transition flex items-center space-x-2 mx-auto">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Biraz Kutlama Işıltısı Saç! ✨</span>
+            </button>
+        </section>
+
+        <!-- 2. MEMORY LANE / PHOTO GALLERY TIMELINE -->
+        <section class="space-y-8">
+            <div class="text-center">
+                <h2 class="font-serif text-3xl text-softBurgundy font-bold">Unutulmaz Anlarımız 📸</h2>
+                <p class="text-sm text-gray-500 mt-1">Birlikte biriktirdiğimiz güzel anılardan küçük bir yolculuk.</p>
+            </div>
+
+            <div class="relative border-l-2 border-blush-200 ml-4 md:ml-32 space-y-8 py-4">
+                
+                <!-- Memory Item 1 -->
+                <div class="relative pl-8 md:pl-12 group">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blush-400 border-4 border-vintagePaper"></div>
+                    <div class="glass-panel p-5 rounded-2xl shadow-sm hover:shadow-md transition">
+                        <span class="text-xs font-semibold text-blush-500 uppercase tracking-wide">İlk Tanışmamız</span>
+                        <h3 class="font-serif text-lg font-bold text-softBurgundy mt-1">O Büyülü Gün</h3>
+                        <p class="text-sm text-gray-600 mt-2">Gözlerinin gözlerime ilk değdiği o an zamanın durduğunu hissetmiştim. Hayatımın dönüm noktasıydı.</p>
+                        <div class="mt-4 overflow-hidden rounded-xl h-48 bg-gray-100">
+                            <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=800&q=80" alt="Anı 1" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Memory Item 2 -->
+                <div class="relative pl-8 md:pl-12 group">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blush-400 border-4 border-vintagePaper"></div>
+                    <div class="glass-panel p-5 rounded-2xl shadow-sm hover:shadow-md transition">
+                        <span class="text-xs font-semibold text-blush-500 uppercase tracking-wide">İlk Tatilimiz</span>
+                        <h3 class="font-serif text-lg font-bold text-softBurgundy mt-1">Birlikte Keşfettiğimiz Yollar</h3>
+                        <p class="text-sm text-gray-600 mt-2">Deniz kokusu, gün batımı ve sadece sen... Birlikte attığımız her adım en güzel maceramdı.</p>
+                        <div class="mt-4 overflow-hidden rounded-xl h-48 bg-gray-100">
+                            <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80" alt="Anı 2" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Memory Item 3 -->
+                <div class="relative pl-8 md:pl-12 group">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blush-400 border-4 border-vintagePaper"></div>
+                    <div class="glass-panel p-5 rounded-2xl shadow-sm hover:shadow-md transition">
+                        <span class="text-xs font-semibold text-blush-500 uppercase tracking-wide">Sıradan Bir Gün</span>
+                        <h3 class="font-serif text-lg font-bold text-softBurgundy mt-1">Kahkahalarla Dolu Bir Akşam</h3>
+                        <p class="text-sm text-gray-600 mt-2">En özel anlar illa büyük planlar gerektirmez. Seninle evde kahve içip gülüşmek bile en büyük mutluluk.</p>
+                        <div class="mt-4 overflow-hidden rounded-xl h-48 bg-gray-100">
+                            <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80" alt="Anı 3" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 3. REASONS WHY I LOVE YOU (Flip Cards) -->
+        <section class="space-y-8">
+            <div class="text-center">
+                <h2 class="font-serif text-3xl text-softBurgundy font-bold">Seni Sevmemin Nedenleri 💌</h2>
+                <p class="text-sm text-gray-500 mt-1">Kartlara tıklayarak küçük sürpriz notları keşfet!</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                
+                <!-- Card 1 -->
+                <div class="flip-card h-52 cursor-pointer" onclick="toggleCard(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front bg-white p-6 shadow-md border border-blush-100 flex flex-col items-center justify-center space-y-3">
+                            <div class="w-12 h-12 rounded-full bg-blush-50 text-blush-500 flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-face-smile-beam"></i>
+                            </div>
+                            <h4 class="font-serif font-semibold text-softBurgundy">Gülüşün</h4>
+                            <p class="text-xs text-gray-400">Tıkla ve Oku ✨</p>
+                        </div>
+                        <div class="flip-card-back bg-blush-400 text-white p-6 flex items-center justify-center shadow-lg">
+                            <p class="text-sm italic font-serif">"Her güldüğünde etrafındaki dünyayı aydınlatan ve bana huzur veren o içten gülümseyişin için."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="flip-card h-52 cursor-pointer" onclick="toggleCard(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front bg-white p-6 shadow-md border border-blush-100 flex flex-col items-center justify-center space-y-3">
+                            <div class="w-12 h-12 rounded-full bg-blush-50 text-blush-500 flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-heart-pulse"></i>
+                            </div>
+                            <h4 class="font-serif font-semibold text-softBurgundy">Kocaman Yüreğin</h4>
+                            <p class="text-xs text-gray-400">Tıkla ve Oku ✨</p>
+                        </div>
+                        <div class="flip-card-back bg-blush-400 text-white p-6 flex items-center justify-center shadow-lg">
+                            <p class="text-sm italic font-serif">"Herkese ve her şeye karşı gösterdiğin o karşılıksız merhamet ve şefkat için."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="flip-card h-52 cursor-pointer" onclick="toggleCard(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front bg-white p-6 shadow-md border border-blush-100 flex flex-col items-center justify-center space-y-3">
+                            <div class="w-12 h-12 rounded-full bg-blush-50 text-blush-500 flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-comments"></i>
+                            </div>
+                            <h4 class="font-serif font-semibold text-softBurgundy">Sohbetlerimiz</h4>
+                            <p class="text-xs text-gray-400">Tıkla ve Oku ✨</p>
+                        </div>
+                        <div class="flip-card-back bg-blush-400 text-white p-6 flex items-center justify-center shadow-lg">
+                            <p class="text-sm italic font-serif">"Saatlerce konuşsak bile asla sıkılmadığımız, her konuyu paylaşabildiğimiz o derin sohbetlerimiz için."</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 4. LOVE QUIZ -->
+        <section class="glass-panel p-8 rounded-3xl shadow-lg border border-blush-200">
+            <div class="text-center mb-6">
+                <h2 class="font-serif text-2xl sm:text-3xl text-softBurgundy font-bold">Aşk Mini Testi 🧩</h2>
+                <p class="text-sm text-gray-500 mt-1">Bizi ne kadar iyi tanıyorsun? Soruyu cevapla ve gör!</p>
+            </div>
+
+            <div id="quiz-container" class="max-w-md mx-auto text-center space-y-4">
+                <p class="font-serif text-lg font-semibold text-softBurgundy" id="quiz-question">
+                    Bizim en çok ne yapmayı sevdiğimizi biliyor musun?
+                </p>
+
+                <div class="space-y-2" id="quiz-options">
+                    <button onclick="checkAnswer(this, false)" class="w-full py-3 px-4 bg-white hover:bg-blush-50 border border-blush-200 rounded-xl text-sm font-medium transition text-gray-700">
+                        A) Saatlerce kahve içip sohbet etmek ☕
+                    </button>
+                    <button onclick="checkAnswer(this, true)" class="w-full py-3 px-4 bg-white hover:bg-blush-50 border border-blush-200 rounded-xl text-sm font-medium transition text-gray-700">
+                        B) Birlikte yeni yerler keşfetmek ve eğlenmek ✈️
+                    </button>
+                    <button onclick="checkAnswer(this, false)" class="w-full py-3 px-4 bg-white hover:bg-blush-50 border border-blush-200 rounded-xl text-sm font-medium transition text-gray-700">
+                        C) Birlikte film izleyip uyuklamak 🍿
+                    </button>
+                </div>
+
+                <div id="quiz-result" class="hidden p-4 rounded-xl bg-blush-100 text-softBurgundy font-medium text-sm animate-fade-in">
+                    <!-- Dynamic Result Message -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. SECRET MESSAGE & WISH -->
+        <section class="text-center space-y-6">
+            <div class="glass-panel p-8 rounded-3xl border border-blush-200 shadow-md">
+                <div class="w-16 h-16 bg-blush-100 text-blush-500 rounded-full flex items-center justify-center text-2xl mx-auto mb-4">
+                    <i class="fa-solid fa-lock" id="secret-icon"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-softBurgundy mb-2">Sana Özel Son Bir Sürpriz ✨</h3>
+                <p class="text-sm text-gray-500 mb-6 max-w-sm mx-auto">Aşağıdaki butona tıklayarak doğum günü dileğimi ve gizli notumu açabilirsin.</p>
+
+                <button id="reveal-btn" onclick="revealSecret()" class="px-8 py-3 bg-blush-500 hover:bg-blush-600 text-white font-medium rounded-full shadow-lg transition duration-300 transform hover:scale-105">
+                    Gizli Mesajı Göster 🎁
+                </button>
+
+                <div id="secret-message" class="hidden mt-6 p-6 bg-vintagePaper rounded-2xl border border-blush-200 max-w-lg mx-auto text-left shadow-inner">
+                    <p class="font-serif text-gray-700 leading-relaxed italic text-sm sm:text-base">
+                        "Benim tek dileğim, önümüzdeki tüm yıllarda her yeni yaşına girerken elini tutan kişinin ben olmam. İyi ki doğdun, iyi ki benim hayatımın başrolüsün. Seni sonsuza kadar seveceğim." ❤️
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-8 text-xs text-gray-400 border-t border-blush-100 mt-12">
+        <p>Sonsuz Aşkla Hazırlandı ❤️ | Doğum Günün Kutlu Olsun</p>
+    </footer>
+
+    <script>
+        // --- 1. Background Floating Hearts ---
+        function createFloatingHearts() {
+            const container = document.getElementById('hearts-container');
+            const heartIcons = ['fa-heart', 'fa-sparkles', 'fa-heart font-thin'];
+            
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('i');
+                const randomIcon = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+                heart.className = `fa-solid ${randomIcon} floating-heart text-blush-300`;
+                
+                // Random position and size
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.top = `${Math.random() * 100}%`;
+                heart.style.fontSize = `${Math.random() * 14 + 10}px`;
+                heart.style.animationDelay = `${Math.random() * 5}s`;
+                heart.style.animationDuration = `${Math.random() * 4 + 4}s`;
+                
+                container.appendChild(heart);
+            }
+        }
+
+        // --- 2. Live Relationship Counter ---
+        // Replace this date with your actual relationship start date! (YYYY, MM-1, DD)
+        const startDate = new Date(2022, 5, 15); // Example: June 15, 2022
+
+        function updateCounter() {
+            const now = new Date();
+            const diff = now - startDate;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / 1000 / 60) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('days').innerText = days;
+            document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+            document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+        }
+
+        // --- 3. Interactive Letter Opening ---
+        function openEnvelope() {
+            const envelope = document.getElementById('envelope');
+            const letter = document.getElementById('letter');
+            const seal = document.getElementById('seal');
+
+            if (!envelope.classList.contains('open')) {
+                envelope.classList.add('open');
+                seal.style.opacity = '0';
+                setTimeout(() => {
+                    letter.classList.remove('opacity-0');
+                    triggerConfetti();
+                }, 500);
+            }
+        }
+
+        // --- 4. Confetti Trigger ---
+        function triggerConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#f16e95', '#e54271', '#B76E79', '#FAF5EF']
+            });
+        }
+
+        // --- 5. Flip Card Toggle ---
+        function toggleCard(card) {
+            card.classList.toggle('flipped');
+        }
+
+        // --- 6. Quiz Logic ---
+        function checkAnswer(button, isCorrect) {
+            const resultDiv = document.getElementById('quiz-result');
+            resultDiv.classList.remove('hidden');
+
+            if (isCorrect) {
+                resultDiv.innerHTML = "🎉 Harika! Bizi çok iyi tanıyorsun, hepsini birlikte yapmak seninle mükemmel!";
+                resultDiv.className = "p-4 rounded-xl bg-green-100 text-green-800 font-medium text-sm animate-fade-in";
+                triggerConfetti();
+            } else {
+                resultDiv.innerHTML = "💖 Aslında hepsi doğru! Seninle yaptığım her şey benim için paha biçilemez.";
+                resultDiv.className = "p-4 rounded-xl bg-blush-100 text-softBurgundy font-medium text-sm animate-fade-in";
+            }
+        }
+
+        // --- 7. Secret Message Reveal ---
+        function revealSecret() {
+            const secretMessage = document.getElementById('secret-message');
+            const icon = document.getElementById('secret-icon');
+            const btn = document.getElementById('reveal-btn');
+
+            secretMessage.classList.remove('hidden');
+            icon.className = "fa-solid fa-lock-open";
+            btn.classList.add('hidden');
+            triggerConfetti();
+        }
+
+        // --- 8. Mini Audio Player Controller ---
+        let isPlaying = false;
+        const audio = document.getElementById('bg-music');
+        const playBtn = document.getElementById('play-btn');
+        const playIcon = document.getElementById('play-icon');
+        const progressBar = document.getElementById('music-progress');
+
+        function toggleAudio() {
+            if (isPlaying) {
+                audio.pause();
+                playIcon.className = "fa-solid fa-play text-xs";
+            } else {
+                audio.play();
+                playIcon.className = "fa-solid fa-pause text-xs";
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Audio progress update
+        audio.ontimeupdate = function() {
+            if (audio.duration) {
+                const percentage = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = percentage + "%";
+            }
+        };
+
+        // Initialize on window load
+        window.onload = function() {
+            createFloatingHearts();
+            setInterval(updateCounter, 1000);
+            updateCounter();
+        };
+    </script>
+</body>
+  </html>
