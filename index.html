@@ -235,7 +235,7 @@
             <p class="text-sm text-gray-500 mb-8">Zarfa tıklayarak doğum günü mektubunu okuyabilirsin.</p>
 
             <div class="envelope-wrapper flex justify-center pt-12 pb-24">
-                <div id="envelope" onclick="openEnvelope()" class="envelope w-72 sm:w-96 h-48 sm:h-64 rounded-2xl border-2 border-blush-200 shadow-xl cursor-pointer relative flex items-center justify-center overflow-hidden">
+                <div id="envelope" onclick="openEnvelope()" class="envelope w-72 sm:w-96 h-48 sm:h-64 rounded-2xl border-2 border-blush-200 shadow-xl cursor-pointer relative flex items-center justify-center bg-gradient-to-b from-white to-vintagePaper hover:shadow-2xl transition">
                     <!-- Envelope Flap -->
                     <div class="envelope-flap rounded-t-2xl"></div>
 
@@ -251,7 +251,7 @@
                             Bugün sadece senin doğum günün değil, benim de dünyamın güzelleştiği gün. İyi ki doğdun, iyi ki benim hayatımdasın.
                         </p>
                         <p class="font-serif text-gray-700 leading-relaxed text-sm sm:text-base mb-4 italic">
-                            Gülüşünle karanlık günlerimi aydınlattığın, her anımda yanımda olup beni koşulsuz sevdiğin için minnettarım. Seninle geçirdiğim her saniye, hayatımın en güzel armağanı.
+                            Gülüşünle karanlık günlerimi aydınlattığın, her anımda yanımda olup beni koşulsuz sevdiğin için minnettarım. Seninle geçirdiğim her saniye, hayatımın en kıymetli anılarından biri.
                         </p>
                         <p class="font-serif text-gray-700 leading-relaxed text-sm sm:text-base mb-6 italic">
                             Yeni yaşında tüm hayallerinin gerçekleşmesini ve birlikte nice mutlu güzel yıllar geçirmemizi diliyorum. Seni çok ama çok seviyorum! ❤️
@@ -264,8 +264,8 @@
                 </div>
             </div>
             
-            <button onclick="triggerConfetti()" class="mt-4 px-6 py-2.5 bg-blush-400 hover:bg-blush-500 text-white rounded-full font-medium text-sm shadow-md hover:shadow-lg transition flex items-center justify-center mx-auto">
-                <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>
+            <button onclick="triggerConfetti()" class="mt-4 px-6 py-2.5 bg-blush-400 hover:bg-blush-500 text-white rounded-full font-medium text-sm shadow-md hover:shadow-lg transition flex items-center justify-center mx-auto space-x-2">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
                 <span>Biraz Kutlama Işıltısı Saç! ✨</span>
             </button>
         </section>
@@ -287,7 +287,7 @@
                         <h3 class="font-serif text-lg font-bold text-softBurgundy mt-1">O Büyülü Gün</h3>
                         <p class="text-sm text-gray-600 mt-2">İlk öpüşmemizdeki o an zamanın durduğunu hissetmiştim. Hayatımın dönüm noktasıydı. Teşekkür ederim!</p>
                         <div class="mt-4 overflow-hidden rounded-xl h-48 bg-gray-100">
-                            <img src="images/1.jpg" alt="Anı 1" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <img src="https://i.pinimg.com/736x/c9/9e/e6/c99ee6ed7e85ac3f6414754b6881a14e.jpg" alt="Anı 1" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                         </div>
                     </div>
                 </div>
@@ -300,7 +300,7 @@
                         <h3 class="font-serif text-lg font-bold text-softBurgundy mt-1">Gezilerimiz</h3>
                         <p class="text-sm text-gray-600 mt-2">Beraber Aşık Veysel'de yürümemiz, kedi sevmemiz ve gittiğimiz daha birçok yer benim için unutulmaz.</p>
                         <div class="mt-4 overflow-hidden rounded-xl h-48 bg-gray-100">
-                            <img src="images/2.jpg" alt="Anı 2" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <img src="https://i.pinimg.com/736x/66/df/f2/66dff278897f622f9c59b91daa376056.jpg" alt="Anı 2" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                         </div>
                     </div>
                 </div>
@@ -313,7 +313,7 @@
                         <h3 class="font-serif text-lg font-bold text-softBurgundy mt-1">Kahkahalarla Dolu Bir Akşam</h3>
                         <p class="text-sm text-gray-600 mt-2">En özel anlar illa büyük planlar gerektirmez. Seninle kafede kahve içip gülüşüp sarılmak bile en büyük mutluluk.</p>
                         <div class="mt-4 overflow-hidden rounded-xl h-48 bg-gray-100">
-                            <img src="images/3.jpg" alt="Anı 3" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <img src="https://i.pinimg.com/736x/11/ec/9e/11ec9e6876095728a9cac0f2c4d88614.jpg" alt="Anı 3" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                         </div>
                     </div>
                 </div>
@@ -420,13 +420,13 @@
                 <h3 class="font-serif text-2xl font-bold text-softBurgundy mb-2">Sana Özel Son Bir Sürpriz ✨</h3>
                 <p class="text-sm text-gray-500 mb-6 max-w-sm mx-auto">Aşağıdaki butona tıklayarak doğum günü dileğimi ve gizli notumu açabilirsin.</p>
 
-                <button id="reveal-btn" onclick="revealSecret()" class="px-8 py-3 bg-blush-500 hover:bg-blush-600 text-white font-medium rounded-full shadow-lg transition duration-300 transform hover:-translate-y-0.5">
+                <button id="reveal-btn" onclick="revealSecret()" class="px-8 py-3 bg-blush-500 hover:bg-blush-600 text-white font-medium rounded-full shadow-lg transition duration-300 transform hover:scale-105">
                     Gizli Mesajı Göster 🎁
                 </button>
 
                 <div id="secret-message" class="hidden mt-6 p-6 bg-vintagePaper rounded-2xl border border-blush-200 max-w-lg mx-auto text-left shadow-inner">
                     <p class="font-serif text-gray-700 leading-relaxed italic text-sm sm:text-base">
-                        "Benim tek dileğim, önümüzdeki tüm yıllarda her yeni yaşına girerken elini tutan kişinin ben olmam. İyi ki doğdun biricik sevgilim, iyi ki benim hayatımdasın. Seni çok seviyorum."
+                        "Benim tek dileğim, önümüzdeki tüm yıllarda her yeni yaşına girerken elini tutan kişinin ben olmam. İyi ki doğdun biricik sevgilim, iyi ki benim hayatımdasın. Seni sonsuz aşkla seviyorum. ❤️"
                     </p>
                 </div>
             </div>
